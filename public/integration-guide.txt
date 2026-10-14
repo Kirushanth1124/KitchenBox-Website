@@ -1,0 +1,43 @@
+KITCHENBOX WEBSITE — WHATSAPP TEAM HANDOFF
+
+Website responsibilities
+Admin/vendor/hub/rider workspaces; durable records; common meal pricing; vendor capacity allocation; customer directory; morning cutoff; advance/COD records; hub food receipt and packing; rider assignments; delivery events; feedback cases; customer notification queue.
+
+The current Site is owner-private. An external WhatsApp server cannot reach it merely by holding an application bearer token. Agree an authenticated gateway/access arrangement before live integration. Do not expose staff APIs or weaken Site authentication to bypass this. Vendor/rider staff also need Site access plus a matching configured staff sign-in email.
+
+Integration secret
+Set KITCHENBOX_BRIDGE_TOKEN in server-side Site secrets. Do not embed it in mobile/browser code, URLs or source. No token is shipped with this repository. The WhatsApp team must validate platform signatures, customer contact identity, duplicate incoming messages and consent in its adapter.
+
+Endpoints
+GET /api/menu — public approved current-day menu; no vendor identities or supplier costs. Returns clock, visible meal selling prices, quantity remaining and published contact information.
+GET /api/bridge?phone=9477... — bearer-authenticated customer lookup, current pricing rules, that contact's order history and queued customer notifications. Bridge is for the trusted server adapter, not customer browsers. It has brand-wide notification access.
+POST /api/bridge — Authorization: Bearer <server secret>; JSON commands below. Read/operations Site access protection applies in addition to bearer auth.
+
+Register/suggest saved customer details
+{"command":"customer-register","customerPhone":"94771234567","phone":"94771234567","name":"...","address":"...","area":"...","location":"..."}
+Returns customerId. Contact is normalized to international digits. No integration caller can grant bulk-COD trust or change a saved trust limit. Obtain permission before changing saved addresses. Show saved values for customer confirmation; do not silently apply them to an active order.
+
+Create after customer accepts the current quote
+{"command":"order-create","key":"unique incoming confirmation id","customerPhone":"94771234567","customer":"CUS-...","day":"YYYY-MM-DD","items":[{"meal":"MEAL-...","qty":1}],"address":"...","area":"configured zone","location":"optional link","optin":true,"note":"..."}
+Returns order id. All monetary amounts are whole LKR. Food subtotal + delivery charge = total. Delivery fee is applied once per order; no discount. Availability, final amount and advance requirement are recalculated by the website. Do not announce acceptance until its outcome is known. Capacity is reserved for received/pending/confirmed orders; cancelled/unfulfilled orders release it. Existing customer/order details are not used to bypass capacity or time checks.
+
+Edit before 09:20
+Same fields as order-create, command order-edit, id order id. Customer must accept revised availability/price. Snapshot delivery details change only for this order; saved profile update is separate.
+Cancel before 09:30
+{"command":"order-cancel","customerPhone":"...","id":"KB-...","reason":"..."}
+The server checks trusted Sri Lanka time. New orders/changes close at 09:20:00, cancellation at 09:30:00. Earlier chats/carts/old buttons do not reserve eligibility. Timely accepted creates are idempotent on their request key, including retries after cutoff. A stale/late cancellation cannot change the order.
+
+Feedback after delivery
+{"command":"feedback","customerPhone":"...","order":"KB-...","type":"feedback","rating":0,"body":"..."}
+Type feedback or complaint; rating 0 means no explicit rating, otherwise 1–5. Do not infer five stars from positive text. Adapter should clarify ambiguous messages and identify the correct order; NLP classification is not supplied by this website.
+
+Notification processing
+Queued records are not sent automatically. Adapter delivers appropriate approved WhatsApp messages/templates subject to consent and platform rules. Record the provider outcome with:
+{"command":"notification-result","id":"MSG-...","customerPhone":"...","status":"sent","providerId":"...","note":"optional diagnostic"}
+Allowed status sent/delivered/failed. The adapter must prevent duplicate sends and arrange retries with an agreed queue claim/lease mechanism before multiple workers operate. This release has no scheduler, sender or lease manager.
+
+Admin manual fallback
+Admins can save customer details and record a WhatsApp order before cutoff using exactly the same business rules. Staff cannot bypass the time, quantity or pricing checks. Kitchen readiness and delivery delay updates enqueue customer messages, not messages to vendors/riders.
+
+Launch limitations / checks
+This release includes real email/password staff accounts. The hosted Site is still owner-private, which is an additional access layer. Staff role rules, concurrent transaction guards and business flows are tested without a browser. Real browser/mobile QA, external adapter testing, messaging failure/retry QA and access configuration are required before live operations. No live Meta account, card gateway, map routing engine, uploaded-receipt storage, delivery GPS stream or payment collection automation is configured.

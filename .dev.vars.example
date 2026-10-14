@@ -1,0 +1,4 @@
+# setup-local.bat generates a random first-owner key in .dev.vars.
+# Hosted deployments: set these as server secrets; never use NEXT_PUBLIC variables.
+KITCHENBOX_BOOTSTRAP_TOKEN=
+KITCHENBOX_BRIDGE_TOKEN=

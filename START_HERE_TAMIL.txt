@@ -1,0 +1,41 @@
+KITCHEN BOX — FULL WEBSITE SOURCE CODE
+
+Idhu full source project. Website screenshot / compiled build mattum illa.
+VS Code-la KitchenBox-Website folder-ai open panni ella code-um paakkalaam.
+
+CODE ENGA IRUKKU?
+app/ui.tsx — home page and all staff dashboards
+app/globals.css — desktop/mobile design
+app/api/[...path]/route.ts — server API and access checks
+lib/operations.ts — cutoff, prices, stock, packing, delivery, COD business rules
+db/schema.ts and drizzle/ — database schema and migrations
+public/images/ — unga logo and food images
+tests/operations.mjs — business-flow checks
+public/integration-guide.txt — other WhatsApp team connect panna guide
+
+CURRENT HOSTED WEBSITE
+https://kitchenbox-lk.agri-tamizha-0588.chatgpt.site
+Team workspace click panni owner account-la sign in pannunga.
+Settings -> Vendors -> Menu -> Kitchen supply -> Customers -> Team configure pannunga.
+Real data add pannina database-la save aagum. No seeded meals/orders.
+
+UNMAIYAANA CURRENT STATUS
+Frontend, backend and durable operations records implemented.
+9:20 new order/edit cutoff; 9:30 cancellation cutoff; COD and bulk exemptions.
+32 business-flow checks, source type check, build and private deployment passed.
+
+Idhai fully launch-ready industry release-nu certify pannala.
+Live WhatsApp sender/incoming mobile workflow separate team connect pannanum.
+Browser/mobile visual and end-to-end staff tests innum pending.
+Current login hosted ChatGPT sign-in. Independent email/password login illa.
+Cloudflare D1 database use pannudhu; idhu Neon/MySQL project illa.
+Website deployment file and database/access setup illama folder extract pannina
+immediately independent production server aagaadhu.
+
+LOCAL DEVELOPMENT
+LOCAL_DEVELOPMENT.md-la prerequisites and database commands irukku.
+Local sign-in simulation developer preview mattum; real production login illa.
+Hosted admin rights / private data ZIP-la copy pannala.
+Production secrets, live customer records and node_modules ZIP-la illa.
+
+README.md and LOCAL_DEVELOPMENT.md padichittu install/run pannunga.

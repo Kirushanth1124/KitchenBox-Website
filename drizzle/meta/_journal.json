@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791086445347,
+      "tag": "0000_previous_giant_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791885661712,
+      "tag": "0001_parallel_penance",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791893285974,
+      "tag": "0002_boring_rumiko_fujikawa",
+      "breakpoints": true
+    }
+  ]
+}
